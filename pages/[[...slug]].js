@@ -51,13 +51,14 @@ export default function Tool() {
     setLoading(false);
   };
 
-  // ←←← THIS IS THE ONLY FIX YOU NEED ←←←
+
+   // ←←← THESE TWO LINES ARE THE ONLY IMPORTANT PART ←←←
   if (!tool || !tool.Name) {
     return <div className="p-12 text-center text-3xl text-white">Tool not found</div>;
   }
+  const inputs = JSON.parse(tool.Inputs || tool.inputs || tool["Inputs"] || '[]');
+  // ←←← END ←←←
 
-  const inputs = JSON.parse(tool.Inputs || tool.inputs || '[]');
-  // ←←← END OF FIX ←←←
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-900 to-blue-900 text-white p-6">
