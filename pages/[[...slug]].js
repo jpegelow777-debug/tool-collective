@@ -31,6 +31,7 @@ export default function Tool() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tool, formData })
     });
+
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     while (true) {
@@ -50,14 +51,13 @@ export default function Tool() {
     setLoading(false);
   };
 
+  // ←←← THIS IS THE ONLY FIX YOU NEED ←←←
   if (!tool || !tool.Name) {
-    return <div className="p-12 text-center text-3xl">Tool not found</div>;
+    return <div className="p-12 text-center text-3xl text-white">Tool not found</div>;
   }
 
-  // This line is the key fix — Baserow sometimes returns "Inputs" or "inputs"
   const inputs = JSON.parse(tool.Inputs || tool.inputs || '[]');
-
-  const inputs = JSON.parse(tool.Inputs || '[]');
+  // ←←← END OF FIX ←←←
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-900 to-blue-900 text-white p-6">
@@ -65,6 +65,7 @@ export default function Tool() {
         <h1 className="text-4xl md:text-6xl font-bold text-center mb-10 drop-shadow-lg">
           {tool.Name}
         </h1>
+
         <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6 mb-12">
           {inputs.map((input, i) => (
             <div key={i} className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
@@ -72,13 +73,14 @@ export default function Tool() {
               <select
                 required={input.required}
                 className="w-full p-4 rounded-xl bg-white/20 text-white border border-white/40 focus:outline-none focus:border-white"
-                onChange={e => setFormData({...formData, [input.label]: e.target.value})}
+                onChange={e => setFormData({ ...formData, [input.label]: e.target.value })}
               >
                 <option value="">Select…</option>
                 {input.options.map(opt => <option key={opt}>{opt}</option>)}
               </select>
             </div>
           ))}
+
           <div className="md:col-span-2 text-center mt-8">
             <button
               type="submit"
