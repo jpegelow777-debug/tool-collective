@@ -1,22 +1,23 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import Select from '@radix-ui/react-select';
 import { marked } from 'marked';
 
 export default function Tool() {
   const router = useRouter();
   const { slug } = router.query;
+  const toolSlug = Array.isArray(slug) ? slug[0] : slug;
+
   const [tool, setTool] = useState(null);
   const [formData, setFormData] = useState({});
   const [output, setOutput] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (slug) fetchTool();
-  }, [slug]);
+    if (toolSlug) fetchTool();
+  }, [toolSlug]);
 
   const fetchTool = async () => {
-    const res = await fetch(`/api/tool?slug=${slug}`);
+    const res = await fetch(`/api/tool?slug=${toolSlug}`);
     const data = await res.json();
     setTool(data);
   };
@@ -49,26 +50,27 @@ export default function Tool() {
     setLoading(false);
   };
 
-  if (!tool) return <div className="p-8 text-center">Loading tool…</div>;
+  if (!tool) return <div className="p-12 text-center text-2xl">Loading tool…</div>;
+  if (!tool.Slug) return <div className="p-12 text-center text-2xl">Tool not found</div>;
 
-  const inputs = JSON.parse(tool.inputs || '[]');
+  const inputs = JSON.parse(tool.Inputs || '[]');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-900 to-blue-900 text-white p-6">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 drop-shadow-lg">
-          {tool.name}
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl md:text-6xl font-bold text-center mb-10 drop-shadow-lg">
+          {tool.Name}
         </h1>
         <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6 mb-12">
           {inputs.map((input, i) => (
-            <div key={i} className="bg-white/10 backdrop-blur rounded-xl p-6">
-              <label className="block text-lg font-medium mb-3">{input.label}</label>
+            <div key={i} className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <label className="block text-lg font-semibold mb-3">{input.label}</label>
               <select
                 required={input.required}
-                className="w-full p-4 rounded-lg bg-white/20 text-white border border-white/30 focus:outline-none focus:border-white"
+                className="w-full p-4 rounded-xl bg-white/20 text-white border border-white/40 focus:outline-none focus:border-white"
                 onChange={e => setFormData({...formData, [input.label]: e.target.value})}
               >
-                <option value="">Select {input.label.toLowerCase()}…</option>
+                <option value="">Select…</option>
                 {input.options.map(opt => <option key={opt}>{opt}</option>)}
               </select>
             </div>
@@ -77,7 +79,7 @@ export default function Tool() {
             <button
               type="submit"
               disabled={loading}
-              className="px-12 py-5 bg-gradient-to-r from-emerald-500 to-teal-500 text-xl font-bold rounded-full hover:scale-105 transition"
+              className="px-16 py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-2xl font-bold rounded-full hover:scale-105 transition shadow-2xl"
             >
               {loading ? 'Generating…' : 'Get Recommendations'}
             </button>
@@ -85,7 +87,7 @@ export default function Tool() {
         </form>
 
         {output && (
-          <div className="bg-white/10 backdrop-blur rounded-2xl p-8 prose prose-invert max-w-none">
+          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-10 prose prose-invert max-w-none">
             <div dangerouslySetInnerHTML={{ __html: marked(output) }} />
           </div>
         )}
