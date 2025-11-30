@@ -50,8 +50,12 @@ export default function Tool() {
     setLoading(false);
   };
 
-  if (!tool) return <div className="p-12 text-center text-2xl">Loading tool…</div>;
-  if (!tool.Slug) return <div className="p-12 text-center text-2xl">Tool not found</div>;
+  if (!tool || !tool.Name) {
+    return <div className="p-12 text-center text-3xl">Tool not found</div>;
+  }
+
+  // This line is the key fix — Baserow sometimes returns "Inputs" or "inputs"
+  const inputs = JSON.parse(tool.Inputs || tool.inputs || '[]');
 
   const inputs = JSON.parse(tool.Inputs || '[]');
 
