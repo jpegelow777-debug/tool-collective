@@ -1,7 +1,15 @@
 export default async function handler(req, res) {
   const { tool, formData } = req.body;
-  const userInputs = Object.entries(formData).map(([k, v]) => `${k}: ${v}`).join('\n');
-  const prompt = `${tool['System Prompt']}\n\nUser inputs:\n${userInputs}`;
+
+  // This turns the selected values into clean bullet points
+  const userInputs = Object.values(formData).join('\n- ');
+
+  const fullPrompt = `${tool["System Prompt"] || tool.system_prompt || tool["system prompt"] || ""}
+
+User selected:
+- ${userInputs}
+
+Give your recommendations now.`;
 
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
@@ -15,9 +23,10 @@ export default async function handler(req, res) {
     },
     body: JSON.stringify({
       model: 'gpt-4o-mini',
-      messages: [{ role: 'user', content: prompt }],
+      messages: [{ role: 'user', content: fullPrompt }],
       stream: true,
-      temperature: 0.7
+      temperature: 0.7,
+      max_tokens: 800
     })
   });
 
