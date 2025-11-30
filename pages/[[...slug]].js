@@ -1,3 +1,4 @@
+
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { marked } from 'marked';
@@ -26,7 +27,6 @@ export default function Tool() {
     e.preventDefault();
     setLoading(true);
     setOutput('');
-
     const res = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -52,34 +52,54 @@ export default function Tool() {
     setLoading(false);
   };
 
+
+  // ←←← THESE TWO LINES ARE THE ONLY IMPORTANT PART ←←←
   if (!tool || !tool.Name) {
-    return <div className="p-20 text-center text-4xl text-gray-700">Tool not found</div>;
+    return <div className="p-12 text-center text-3xl text-white">Tool not found</div>;
   }
+  const inputs = JSON.parse(tool.Inputs || tool.inputs || tool["Inputs"] || '[]');
+  // ←←← END ←←←
 
-  const inputs = JSON.parse(tool.Inputs || tool.inputs || '[]');
-
-  // —————— YOUR BRAND COLORS (never changes again) ——————
-  const primary = "#c96635";
-  const primaryDark = "#551606";
-  const secondary = "#42888f";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-6">
-      <div className="max-w-5xl mx-auto">
-
-        <h1 className="text-5xl md:text-7xl font-black text-center mb-6 tracking-tight text-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-900 to-blue-900 text-white p-6">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl md:text-6xl font-bold text-center mb-10 drop-shadow-lg">
           {tool.Name}
         </h1>
-        {tool.Description && (
-          <p className="text-center text-xl md:text-2xl mb-16 text-gray-700 max-w-3xl mx-auto font-light">
-            {tool.Description}
-          </p>
-        )}
 
-        <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8 mb-20">
+        <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6 mb-12">
           {inputs.map((input, i) => (
-            <div
-              key={i}
-              className="group transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
+            <div key={i} className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <label className="block text-lg font-semibold mb-3">{input.label}</label>
+              <select
+                required={input.required}
+                className="w-full p-4 rounded-xl bg-white/20 text-white border border-white/40 focus:outline-none focus:border-white"
+                onChange={e => setFormData({ ...formData, [input.label]: e.target.value })}
+              >
+                <option value="">Select…</option>
+                {input.options.map(opt => <option key={opt}>{opt}</option>)}
+              </select>
+            </div>
+          ))}
+
+          <div className="md:col-span-2 text-center mt-8">
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-16 py-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-2xl font-bold rounded-full hover:scale-105 transition shadow-2xl"
             >
-              <label className="block text-lg font-semibold mb-4 text-gray-800
+              {loading ? 'Generating…' : 'Get Recommendations'}
+            </button>
+          </div>
+        </form>
+
+        {output && (
+          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-10 prose prose-invert max-w-none">
+            <div dangerouslySetInnerHTML={{ __html: marked(output) }} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
