@@ -132,39 +132,42 @@ export default function Tool() {
             </div>
           )}
 
-          {/* STATIC AFFILIATE CARDS FROM BASEROW */}
-          {tool["Affiliate Cards"] && (
-            <div className="mt-20">
-              <h2 className="text-3xl font-black text-center mb-10">Top Recommended Products</h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                {JSON.parse(tool["Affiliate Cards"] || '[]').map((item, i) => (
-                  <a
-                    key={i}
-                    href={item.link}
-                    target="_blank"
-                    rel="nofollow sponsored"
-                    className="block bg-white rounded-2xl shadow-xl overflow-hidden hover:scale-105 transition-transform"
-                  >
-                    <img 
-  src={item.image || "https://via.placeholder.com/400x400.png?text=No+Image"} 
-  alt={item.name} 
-  className="w-full h-64 object-contain bg-white p-8 rounded-t-2xl border-b border-gray-200"
-  loading="lazy"
-/>
-                    <div className="p-6 text-center">
-                      <p className="font-bold text-lg text-gray-900 line-clamp-2">{item.name}</p>
-                      <p className="text-2xl font-black text-green-600 mt-2">{item.price}</p>
-                      <span className="inline-block mt-4 px-8 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-full">
-                        Buy Now →
-                      </span>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
+           {/* PERFECT AFFILIATE CARDS – FINAL VERSION */}
+      {tool["Affiliate Cards"] && (
+        <div className="mt-20">
+          <h2 className="text-3xl font-black text-center mb-10 text-gray-900">
+            Top Recommended Products
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {JSON.parse(tool["Affiliate Cards"] || "[]").map((item, i) => (
+              <a
+                key={i}
+                href={item.link}
+                target="_blank"
+                rel="nofollow sponsored"
+                className="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+              >
+                <div className="h-64 bg-white p-8 flex items-center justify-center">
+                  <img
+                    src={item.image || "https://via.placeholder.com/400x400.png?text=No+Image"}
+                    alt={item.name}
+                    className="max-w-full max-h-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-6 text-center">
+                  <p className="font-bold text-lg text-gray-900 line-clamp-2 leading-tight">
+                    {item.name}
+                  </p>
+                  <p className="text-3xl font-black text-green-600 mt-3">
+                    {item.price}
+                  </p>
+                  <span className="inline-block mt-5 px-10 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold text-lg rounded-full hover:from-orange-600 hover:to-red-700 transition-all">
+                    Buy Now →
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    </>
-  );
-}
+      )}
