@@ -27,6 +27,7 @@ export default function Tool() {
     e.preventDefault();
     setLoading(true);
     setOutput('');
+
     const res = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -79,7 +80,7 @@ export default function Tool() {
 
           <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8 mb-20">
             {inputs.map((input, i) => (
-              <div key={i} className="group transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+              <div key={i} className="group transform transition-all duration-300 hover:scale-[1.02 hover:shadow-2xl">
                 <label className="block text-lg font-semibold mb-4 text-gray-800">
                   {input.label}
                 </label>
@@ -125,14 +126,14 @@ export default function Tool() {
             </div>
           )}
 
-          {/* FINAL AFFILIATE CARDS – BEAUTIFUL & WORKING */}
+          {/* FINAL AFFILIATE CARDS – 100% WORKING */}
           {tool["Affiliate Cards"] && (
-            <div className="mt-20 pb-10">
+            <div className="mt-20 pb-20">
               <h2 className="text-3xl font-black text-center mb-12 text-gray-900">
                 Top Recommended Products
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
-                {JSON.parse(tool["Affiliate Cards"] || "[]"]).map((item, i) => (
+                {JSON.parse(tool["Affiliate Cards"] || "[]").map((item, i) => (
                   <a
                     key={i}
                     href={item.link}
