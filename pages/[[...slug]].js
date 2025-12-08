@@ -103,3 +103,29 @@ export default function Tool() {
     </div>
   );
 }
+      {/* STATIC AFFILIATE CARDS FROM BASEROW */}
+      {tool["Affiliate Cards"] && (
+        <div className="mt-20">
+          <h2 className="text-3xl font-black text-center mb-10">Top Recommended Products</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {JSON.parse(tool["Affiliate Cards"] || '[]').map((item, i) => (
+              <a
+                key={i}
+                href={item.link}
+                target="_blank"
+                rel="nofollow sponsored"
+                className="block bg-white rounded-2xl shadow-xl overflow-hidden hover:scale-105 transition-transform"
+              >
+                <img src={item.image} alt={item.name} className="w-full h-48 object-cover" />
+                <div className="p-6 text-center">
+                  <p className="font-bold text-lg text-gray-900 line-clamp-2">{item.name}</p>
+                  <p className className="text-2xl font-black text-green-600 mt-2">{item.price}</p>
+                  <span className="inline-block mt-4 px-8 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-full">
+                    Buy Now →
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
