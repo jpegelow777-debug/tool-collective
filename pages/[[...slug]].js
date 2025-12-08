@@ -145,7 +145,12 @@ export default function Tool() {
                     rel="nofollow sponsored"
                     className="block bg-white rounded-2xl shadow-xl overflow-hidden hover:scale-105 transition-transform"
                   >
-                    <img src={item.image} alt={item.name} className="w-full h-48 object-cover" />
+                    <img 
+  src={item.image || "https://via.placeholder.com/400x400.png?text=No+Image"} 
+  alt={item.name} 
+  className="w-full h-64 object-contain bg-white p-8 rounded-t-2xl border-b border-gray-200"
+  loading="lazy"
+/>
                     <div className="p-6 text-center">
                       <p className="font-bold text-lg text-gray-900 line-clamp-2">{item.name}</p>
                       <p className="text-2xl font-black text-green-600 mt-2">{item.price}</p>
