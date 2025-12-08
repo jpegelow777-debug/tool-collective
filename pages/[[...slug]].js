@@ -132,10 +132,10 @@ export default function Tool() {
             </div>
           )}
 
-                {/* FINAL AFFILIATE CARDS – WORKING 100% */}
-          {tool["Affiliate Cards"] && (
-            <div className="mt-20">
-              <h2 className="text-3xl font-black text-center mb-12 text-gray-900">
+      {/* FINAL AFFILIATE CARDS – WORKING 100% */}
+      {tool["Affiliate Cards"] && (
+        <div className="mt-20">
+          <h2 className="text-3xl font-black text-center mb-12 text-gray-900">
             Top Recommended Products
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
