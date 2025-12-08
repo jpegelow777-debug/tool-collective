@@ -132,7 +132,7 @@ export default function Tool() {
             </div>
           )}
 
-           {/* PERFECT AFFILIATE CARDS – FINAL VERSION */}
+               {/* PERFECT AFFILIATE CARDS – FINAL WORKING VERSION */}
       {tool["Affiliate Cards"] && (
         <div className="mt-20">
           <h2 className="text-3xl font-black text-center mb-10 text-gray-900">
