@@ -132,44 +132,47 @@ export default function Tool() {
             </div>
           )}
 
-               {/* PERFECT AFFILIATE CARDS – FINAL WORKING VERSION */}
-            {/* AFFILIATE CARDS – FINAL WORKING VERSION (no build errors) */}
-            {/* AFFILIATE CARDS – FINAL 100% WORKING VERSION */}
-      {tool["Affiliate Cards"] && (
-        <div className="mt-20">
-          <h2 className="text-3xl font-black text-center mb-10 text-gray-900">
-            Top Recommended Products
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {JSON.parse(tool["Affiliate Cards"] || "[]").map((item, i) => (
-              <a
-                key={i}
-                href={item.link}
-                target="_blank"
-                rel="nofollow sponsored"
-                className="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
-              >
-                <div className="h-64 bg-white p-8 flex items-center justify-center">
-                  <img
-                    src={item.image || "https://via.placeholder.com/400x400.png?text=No+Image"}
-                    alt={item.name}
-                    className="max-w-full max-h-full object-contain"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-6 text-center">
-                  <p className="font-bold text-lg text-gray-900 line-clamp-2 leading-tight">
-                    {item.name}
-                  </p>
-                  <p className="text-3xl font-black text-green-600 mt-3">
-                    {item.price}
-                  </p>
-                  <span className="inline-block mt-5 px-10 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold text-lg rounded-full hover:from-orange-600 hover:to-red-700 transition-all">
-                    Buy Now →
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
+          {/* FINAL AFFILIATE CARDS – 100% WORKING */}
+          {tool["Affiliate Cards"] && (
+            <div className="mt-20">
+              <h2 className="text-3xl font-black text-center mb-10 text-gray-900">
+                Top Recommended Products
+              </h2>
+              <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                {JSON.parse(tool["Affiliate Cards"] || "[]").map((item, i) => (
+                  <a
+                    key={i}
+                    href={item.link}
+                    target="_blank"
+                    rel="nofollow sponsored"
+                    className="block bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                  >
+                    <div className="h-64 bg-white p-8 flex items-center justify-center">
+                      <img
+                        src={item.image || "https://via.placeholder.com/400x400.png?text=No+Image"}
+                        alt={item.name}
+                        className="max-w-full max-h-full object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-6 text-center">
+                      <p className="font-bold text-lg text-gray-900 line-clamp-2 leading-tight">
+                        {item.name}
+                      </p>
+                      <p className="text-3xl font-black text-green-600 mt-3">
+                        {item.price}
+                      </p>
+                      <span className="inline-block mt-5 px-10 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold text-lg rounded-full hover:from-orange-600 hover:to-red-700 transition-all">
+                        Buy Now →
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
+    </>
+  );
+}
