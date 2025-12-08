@@ -134,15 +134,16 @@ export default function Tool() {
 
                {/* PERFECT AFFILIATE CARDS – FINAL WORKING VERSION */}
             {/* AFFILIATE CARDS – FINAL WORKING VERSION (no build errors) */}
+            {/* AFFILIATE CARDS – FINAL 100% WORKING VERSION */}
       {tool["Affiliate Cards"] && (
         <div className="mt-20">
           <h2 className="text-3xl font-black text-center mb-10 text-gray-900">
             Top Recommended Products
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {JSON.parse(tool["Affiliate Cards"] || "[]").map((item => (
+            {JSON.parse(tool["Affiliate Cards"] || "[]").map((item, i) => (
               <a
-                key={item.name}
+                key={i}
                 href={item.link}
                 target="_blank"
                 rel="nofollow sponsored"
