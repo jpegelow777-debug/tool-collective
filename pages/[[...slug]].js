@@ -58,7 +58,8 @@ export default function Tool() {
   }
 
   const inputs = JSON.parse(tool.Inputs || tool.inputs || '[]');
-
+  // ←←← ADD THIS LINE (forces dynamic rendering for every tool) ←←←
+  const dynamic = useRouter().isFallback || true;
   return (
     <>
       <Head>
