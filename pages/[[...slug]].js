@@ -131,7 +131,7 @@ export default function Tool() {
           {tool["Affiliate Cards"] && (
             <div className="mt-20 pb-20">
               <h2 className="text-3xl font-black text-center mb-12 text-gray-900">
-                Our Favorite Picks
+                Some of The Most Popular Recommendations
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
                 {JSON.parse(tool["Affiliate Cards"] || "[]").map((item, i) => (
