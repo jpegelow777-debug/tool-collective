@@ -31,8 +31,8 @@ Respond ONLY in clean, readable markdown. Use headings, numbered lists, and bold
       model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: fullPrompt }],
       stream: true,
-      temperature: 0.7,
-      max_tokens: 1000
+      temperature: 0.5,
+      max_tokens: 1500
     })
   });
 
