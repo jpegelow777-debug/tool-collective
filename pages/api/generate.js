@@ -28,7 +28,7 @@ Respond ONLY in clean, readable markdown. Use headings, numbered lists, and bold
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: 'gpt-4.1-mini',
+      model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: fullPrompt }],
       stream: true,
       temperature: 0.7,
