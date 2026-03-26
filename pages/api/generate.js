@@ -28,10 +28,10 @@ Respond ONLY in clean, readable markdown. Use headings, numbered lists, and bold
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: 'gpt-4o-mini',
+      model: 'gpt-5.4-nano',
       messages: [{ role: 'user', content: fullPrompt }],
       stream: true,
-      temperature: 0.5,
+      temperature: 0.7,
       max_tokens: 1500
     })
   });
