@@ -38,7 +38,7 @@ Respond ONLY in clean, readable markdown. Use headings, numbered lists, and bold
         input: fullPrompt,
         stream: true,
         temperature: 0.7,
-        max_output_tokens: 1500
+        max_output_tokens: 2000
       })
     });
 
