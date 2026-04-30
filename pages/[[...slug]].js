@@ -84,9 +84,8 @@ export default function Tool() {
           <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8 mb-20">
             {inputs.map((input, i) => (
               <div key={i} className="group transform transition-all duration-300 hover:scale-[1.02]">
-                <label className="block text-lg font-semibold mb-4 text-gray-800">
-                  {input.label}
-                  {input.required && <span className="text-red-500 ml-1">*</span>}
+               <label className="block text-lg font-semibold mb-4 text-gray-800">
+                {input.label}
                 </label>
                 
                 <DynamicInput
