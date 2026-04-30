@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import Head from 'next/head';
+import DynamicInput from '../components/DynamicInput';   // ← New Import
 
 export default function Tool() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function Tool() {
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
+
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -58,8 +60,7 @@ export default function Tool() {
   }
 
   const inputs = JSON.parse(tool.Inputs || tool.inputs || '[]');
-  // ←←← ADD THIS LINE (forces dynamic rendering for every tool) ←←←
-  const dynamic = useRouter().isFallback || true;
+
   return (
     <>
       <Head>
@@ -69,38 +70,32 @@ export default function Tool() {
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-6">
         <div className="max-w-5xl mx-auto">
-
           <h1 className="text-5xl md:text-7xl font-black text-center mb-6 tracking-tight text-gray-900">
             {tool.Name}
           </h1>
+
           {tool.Description && (
             <p className="text-center text-xl md:text-2xl mb-16 text-gray-700 max-w-3xl mx-auto font-light">
               {tool.Description}
             </p>
           )}
 
+          {/* Updated Form */}
           <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8 mb-20">
             {inputs.map((input, i) => (
-              <div key={i} className="group transform transition-all duration-300 hover:scale-[1.02 hover:shadow-2xl">
+              <div key={i} className="group transform transition-all duration-300 hover:scale-[1.02]">
                 <label className="block text-lg font-semibold mb-4 text-gray-800">
                   {input.label}
+                  {input.required && <span className="text-red-500 ml-1">*</span>}
                 </label>
-                <select
-                  required={input.required}
-                  className="w-full px-6 py-5 rounded-2xl bg-white border-2 border-gray-200 text-gray-900 text-lg font-medium focus:outline-none focus:border-transparent focus:ring-4 focus:ring-orange-200 transition-all duration-300 appearance-none cursor-pointer shadow-lg hover:shadow-xl"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                    backgroundPosition: "right 1.5rem center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "1.2em",
-                  }}
-                  onChange={e => setFormData({ ...formData, [input.label]: e.target.value })}
-                >
-                  <option value="">Select {input.label.toLowerCase()}…</option>
-                  {input.options.map(opt => (
-                    <option key={opt}>{opt}</option>
-                  ))}
-                </select>
+                
+                <DynamicInput
+                  input={input}
+                  value={formData[input.label]}
+                  onChange={(newValue) => 
+                    setFormData(prev => ({ ...prev, [input.label]: newValue }))
+                  }
+                />
               </div>
             ))}
 
@@ -114,7 +109,6 @@ export default function Tool() {
                 <span className="relative z-10">
                   {loading ? "Generating…" : "Get My Recommendations"}
                 </span>
-                <div className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition-opacity" />
               </button>
             </div>
           </form>
@@ -127,7 +121,7 @@ export default function Tool() {
             </div>
           )}
 
-          {/* FINAL AFFILIATE CARDS – 100% WORKING */}
+          {/* Affiliate Cards - Unchanged */}
           {tool["Affiliate Cards"] && (
             <div className="mt-20 pb-20">
               <h2 className="text-3xl font-black text-center mb-12 text-gray-900">
