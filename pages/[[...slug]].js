@@ -151,7 +151,7 @@ export default function Tool() {
                         {item.price}
                       </p>
                       <span className="inline-block px-12 py-5 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold text-xl rounded-full hover:from-orange-600 hover:to-red-700 transition-all">
-                        View on Amazon →
+                        Check it Out, Read Reviews, and see details →
                       </span>
                     </div>
                   </a>
