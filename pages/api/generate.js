@@ -34,7 +34,7 @@ Respond ONLY in clean, readable markdown. Use headings, numbered lists, bold, an
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'gpt-5.4-nano',
+        model: 'gpt-6-luna',
         input: fullPrompt,
         stream: true,
         temperature: 0.7,
