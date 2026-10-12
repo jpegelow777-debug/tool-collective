@@ -57,11 +57,17 @@ export default function Tool() {
 
   const inputs = JSON.parse(tool.Inputs || tool.inputs || '[]');
 
-  // Custom marked renderer so all links open in a new tab
+  // Custom renderer so all links open in a new tab
   const renderer = new marked.Renderer();
   renderer.link = (href, title, text) => {
     return `<a href="${href}" target="_blank" rel="noopener noreferrer nofollow sponsored"${title ? ` title="${title}"` : ''}>${text}</a>`;
   };
+
+  // Clean the AI output before rendering
+  const cleanOutput = output
+    .replace(/\{:target="_blank"\}/gi, '')
+    .replace(/\{:target='_blank'\}/gi, '')
+    .replace(/\{:target=_blank\}/gi, '');
 
   return (
     <>
@@ -120,7 +126,7 @@ export default function Tool() {
               <div className="prose prose-lg prose-slate max-w-none text-gray-800">
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: marked(output, { renderer })
+                    __html: marked(cleanOutput, { renderer })
                   }}
                 />
               </div>
