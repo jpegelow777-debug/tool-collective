@@ -2,13 +2,12 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import Head from 'next/head';
-import DynamicInput from '../components/DynamicInput';   // ← New Import
+import DynamicInput from '../components/DynamicInput';
 
 export default function Tool() {
   const router = useRouter();
   const { slug } = router.query;
   const toolSlug = Array.isArray(slug) ? slug[0] : slug;
-
   const [tool, setTool] = useState(null);
   const [formData, setFormData] = useState({});
   const [output, setOutput] = useState('');
@@ -28,16 +27,13 @@ export default function Tool() {
     e.preventDefault();
     setLoading(true);
     setOutput('');
-
     const res = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tool, formData })
     });
-
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
@@ -61,6 +57,12 @@ export default function Tool() {
 
   const inputs = JSON.parse(tool.Inputs || tool.inputs || '[]');
 
+  // Custom marked renderer so all links open in a new tab
+  const renderer = new marked.Renderer();
+  renderer.link = (href, title, text) => {
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer nofollow sponsored"${title ? ` title="${title}"` : ''}>${text}</a>`;
+  };
+
   return (
     <>
       <Head>
@@ -80,12 +82,12 @@ export default function Tool() {
             </p>
           )}
 
-          {/* Updated Form */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8 mb-20">
             {inputs.map((input, i) => (
               <div key={i} className="group transform transition-all duration-300 hover:scale-[1.02]">
-               <label className="block text-lg font-semibold mb-4 text-gray-800">
-                {input.label}
+                <label className="block text-lg font-semibold mb-4 text-gray-800">
+                  {input.label}
                 </label>
                 
                 <DynamicInput
@@ -112,15 +114,20 @@ export default function Tool() {
             </div>
           </form>
 
+          {/* AI Output */}
           {output && (
             <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-10 md:p-16 shadow-2xl border border-gray-100 mb-20">
               <div className="prose prose-lg prose-slate max-w-none text-gray-800">
-                <div dangerouslySetInnerHTML={{ __html: marked(output) }} />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: marked(output, { renderer })
+                  }}
+                />
               </div>
             </div>
           )}
 
-          {/* Affiliate Cards - Unchanged */}
+          {/* Affiliate Cards */}
           {tool["Affiliate Cards"] && (
             <div className="mt-20 pb-20">
               <h2 className="text-3xl font-black text-center mb-12 text-gray-900">
